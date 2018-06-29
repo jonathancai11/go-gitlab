@@ -20,6 +20,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/url"
+	"strings"
 )
 
 // RepositoryFilesService handles communication with the repository files
@@ -100,6 +101,7 @@ func (s *RepositoryFilesService) GetRawFile(pid interface{}, fileName string, op
 		return nil, nil, err
 	}
 	u := fmt.Sprintf("projects/%s/repository/files/%s/raw", url.QueryEscape(project), url.QueryEscape(fileName))
+	u = strings.Replace(u, ".", "%2E", 1)
 
 	req, err := s.client.NewRequest("GET", u, opt, options)
 	if err != nil {
